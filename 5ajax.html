@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+.active{ background:red;}
+</style>
+</head>
+
+<body>
+<ul>
+	<li>aaaa</li>
+    <li>bbbb</li>
+    <li>cccc</li>
+</ul>
+<div id="div1"></div>
+<script>
+var aLi = document.getElementsByTagName('li');
+var oDiv = document.getElementById('div1');
+var xhr = null;
+for(var i=0;i<aLi.length;i++){
+	aLi[i].index = i;
+	aLi[i].onclick = function(){
+		for(var i=0;i<aLi.length;i++){
+			aLi[i].className = '';
+		}
+		this.className = 'active';
+		if(xhr){
+			xhr.abort();  //把前一次的请求给停止
+		}
+		xhr = new XMLHttpRequest();
+		xhr.open('GET','xhr2.php?index='+this.index,true);
+		xhr.onload = function(){
+			if(xhr.status == 200){
+				//console.log(xhr.response);
+				oDiv.innerHTML = aLi[xhr.response].innerHTML;
+			}
+		};
+		xhr.send(null);
+	};
+}
+//xhr.abort();
+//xhr = $.ajax({});
+</script>
+</body>
+</html>

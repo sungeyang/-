@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+<script>
+var xhr2 = new XMLHttpRequest();
+xhr2.open('GET','xhr2.php',true);
+/*xhr2.onreadystatechange = function(){
+	console.log(xhr2.readyState);
+};*/
+//xhr2.responseType = 'json';  //jquery中的dataType类似的做法
+xhr2.onload = function(){   //只有等于4的时候才会触发
+	if(xhr2.status == 200){
+		//console.log(xhr2.responseText);
+		//console.log( JSON.parse(xhr2.responseText) );
+		console.log(xhr2.response);	
+	}
+};
+xhr2.timeout = 1000;
+xhr2.ontimeout = function(){
+	console.log('超时啦');
+};
+xhr2.send(null);
+</script>
+</body>
+</html>

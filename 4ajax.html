@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+<!--<form action="xhr2.php" method="post" enctype="multipart/form-data">
+	<input type="file" name="file1">
+    <input type="submit">
+</form>-->
+<input id="myFile" type="file" name="file1">
+<input id="mySubmit" type="submit">
+<div id="div1"></div>
+<script>
+var myFile = document.getElementById('myFile');
+var mySubmit = document.getElementById('mySubmit');
+var oDiv = document.getElementById('div1');
+
+mySubmit.onclick = function(){
+	var form = new FormData();
+	form.append('file1',myFile.files[0]);
+	var xhr2 = new XMLHttpRequest();
+	xhr2.open('POST','xhr2.php',true);
+	xhr2.onload = function(){
+		if(xhr2.status == 200){
+			console.log('上传成功');
+			console.log(xhr2.response);
+		}
+	};
+	xhr2.upload.onprogress = function(ev){   //上传的进度事件
+		//ev.loaded   //当前上传过程中的文件的质量大小
+		//ev.total  //总文件的质量大小
+		console.log(ev.loaded);
+		console.log(ev.total);
+		oDiv.innerHTML = parseInt(ev.loaded/ev.total*100) + '%';
+	};
+
+	xhr2.send(form);
+	
+};
+
+</script>
+</body>
+</html>
